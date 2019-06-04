@@ -5,6 +5,7 @@ import { RouteConfig } from 'vue-router';
 const HomeComponent = () => import(`./home/home.component.vue`);
 import HelloWorldComponent from './hello-world/hello-world.component.vue';
 import PageNotFoundComponent from './page-not-found/page-not-found.component.vue';
+import ProfileComponent from './profile/profile.component.vue';
 
 Vue.use(VueRouter);
 
@@ -16,6 +17,20 @@ const routes: RouteConfig[] = [
     {
         path: '/hello',
         component: HelloWorldComponent,
+    },
+    {
+        path: '/profile/:id',
+        name: 'profile',
+        component: ProfileComponent,
+    },
+    {
+        path: '/profile',
+        redirect: {
+            name: 'profile',
+            params: {
+                id: '0',
+            }
+        },
     },
     {
         path: '/*',
