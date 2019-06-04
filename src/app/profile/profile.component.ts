@@ -1,5 +1,11 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component({})
+import ProfileNavigationComponent from './navigation/navigation.component.vue';
+
+@Component({
+    components: {
+        ProfileNavigationComponent,
+    },
+})
 export default class ProfileComponent extends Vue {
 }
