@@ -5,6 +5,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({})
-export default class PageNotFound extends Vue {
+export default class PageNotFoundComponent extends Vue {
 }
 </script>

@@ -9,7 +9,7 @@ import { AppRouter } from './app.router';
 @Component({
     router: AppRouter,
 })
-    export default class App extends Vue {
+export default class AppComponent extends Vue {
     public showHello: boolean = true;
 
     public greet () {
