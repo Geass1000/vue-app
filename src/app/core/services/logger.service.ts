@@ -158,6 +158,6 @@ export class LoggerService {
     private callLogFunction (logFunc: Function, methodName: string, msgs: any[]): void {
         const msgDescriptor: string = this.getMessageDescription(methodName);
         const msgSeparator: string = !msgs ? '' : ': ';
-        logFunc.apply(console, [ msgDescriptor, msgSeparator, ...msgs ]);
+        logFunc.apply(console, [ msgDescriptor + msgSeparator, ...msgs ]);
     }
 }
