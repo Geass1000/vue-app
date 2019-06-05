@@ -12,6 +12,9 @@ export class LoggerService {
     public get className () {
         return this._className;
     }
+    /**
+     * Name of class who uses the current instance of the LoggerService
+     */
     private _className: string = '';
 
     constructor () {
@@ -126,7 +129,7 @@ export class LoggerService {
 
     /**
      * Returns true if current level of logging is smaller than log level from params.
-     * 
+     *
      * @param  {LogLevel} level - level of logging
      * @returns boolean
      */
