@@ -4,16 +4,19 @@ import { AppRouter } from './app.router';
 
 import { HttpService, LoggerService } from './core/services';
 
+import { lazyInject } from './core/di.container';
+
 @Component({
-    diProvide: [ LoggerService ],
-    diInject: { http: HttpService, logger: LoggerService },
     router: AppRouter,
 })
 export default class AppComponent extends Vue {
     public showHello: boolean = true;
 
-    public http!: HttpService;
-    public logger!: LoggerService;
+    @lazyInject(LoggerService.diIdentifier)
+    private logger!: LoggerService;
+
+    @lazyInject(HttpService.diIdentifier)
+    private http!: HttpService;
 
     public created () {
         this.logger.className = `AppComponent`;

@@ -1,9 +1,10 @@
-import { Inject, Service, Token } from 'vue-di-container';
+import { injectable } from 'inversify';
 
 import { LogLevel } from '../../shared/enums/service.enum';
 
-@Service()
+@injectable()
 export class LoggerService {
+    static diIdentifier: symbol = Symbol('LoggerService');
     private curLogLevel: LogLevel = LogLevel.Log;
 
     public set className (name: string) {

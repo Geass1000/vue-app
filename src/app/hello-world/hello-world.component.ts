@@ -2,21 +2,18 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 import { HttpService, LoggerService } from '../core/services';
 
+import { lazyInject } from '../core/di.container';
+
 @Component({
-    diProvide: [
-        HttpService,
-        LoggerService,
-    ],
-    diInject: {
-        http: HttpService,
-        logger: LoggerService,
-    }
 })
 export default class HelloWorldComponent extends Vue {
     @Prop() private msg!: string;
 
-    public http!: HttpService;
-    public logger!: LoggerService;
+    @lazyInject(LoggerService.diIdentifier)
+    private logger!: LoggerService;
+
+    @lazyInject(HttpService.diIdentifier)
+    private http!: HttpService;
 
     public created () {
         this.http.post();

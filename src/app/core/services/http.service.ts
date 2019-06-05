@@ -1,19 +1,25 @@
-import { Inject, Service, Token } from 'vue-di-container';
+import { injectable, inject } from 'inversify';
 
-@Service()
+import { LoggerService } from './logger.service';
+
+@injectable()
 export class HttpService {
+    static diIdentifier: symbol = Symbol(`HttpService`);
+
     private sid: number;
 
-    constructor () {
+    constructor (@inject(LoggerService.diIdentifier) public logger: LoggerService) {
+        this.logger.className = `HttpService`;
         this.sid = Math.floor(Math.random() * 100);
-        console.info(`HttpService - constructor (${this.sid}): Cteate service`);
+        this.logger.info(`constructor (${this.sid})`, `Cteate service`);
     }
 
     public get () {
-        console.log(`HttpService - get (${this.sid}): Called`);
+        this.logger.log(`get (${this.sid})`, `Called`);
     }
 
     public post () {
-        console.log(`HttpService - post (${this.sid}): Called`);
+        this.logger.log(`post (${this.sid})`, `Called`);
     }
+
 }

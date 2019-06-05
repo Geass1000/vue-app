@@ -14,7 +14,6 @@
     "reflect-metadata": "^0.1.13",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
-    "vue-di-container": "^0.1.0",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.6"
   },
