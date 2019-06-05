@@ -2,10 +2,10 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { RouteConfig } from 'vue-router';
 
-const HomeComponent = () => import(`./home/home.component.vue`);
+const HomeComponent = () => import(/* webpackChunkName: "home" */ `./home/home.component.vue`);
 import HelloWorldComponent from './hello-world/hello-world.component.vue';
 import PageNotFoundComponent from './page-not-found/page-not-found.component.vue';
-import ProfileComponent from './profile/profile.component.vue';
+const ProfileComponent = () => import(/* webpackChunkName: "profile" */ `./profile/profile.component.vue`);
 
 import { profileRoutes } from './profile/profile.router';
 
