@@ -4,7 +4,7 @@ import { AppRouter } from './app.router';
 
 import { HttpService, LoggerService } from './core/services';
 
-import { lazyInject } from './core/di.container';
+import { CoreModule } from './core/core.module';
 
 @Component({
     router: AppRouter,
@@ -12,10 +12,10 @@ import { lazyInject } from './core/di.container';
 export default class AppComponent extends Vue {
     public showHello: boolean = true;
 
-    @lazyInject(LoggerService.diIdentifier)
+    @CoreModule.lazyInject(LoggerService.diIdentifier)
     private logger!: LoggerService;
 
-    @lazyInject(HttpService.diIdentifier)
+    @CoreModule.lazyInject(HttpService.diIdentifier)
     private http!: HttpService;
 
     public created () {
@@ -25,7 +25,7 @@ export default class AppComponent extends Vue {
     public greet () {
         this.showHello = !this.showHello;
         this.logger.info(`greet`, `User clicked on the 'Data' button`);
-        // this.http.get();
+        this.http.get();
     }
 
     public newData () {
