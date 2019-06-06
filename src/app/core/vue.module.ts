@@ -5,7 +5,10 @@ import { LoggerService, HttpService } from './services';
 import { VueModuleConfig, LazyInject, Injectors } from './vue-module.interface';
 
 export class VueModule {
-    private config!: VueModuleConfig;
+    private parentModule: VueModule | null;
+    get parent (): VueModule | null {
+        return this.parentModule;
+    }
 
     /**
      * Module's container
@@ -28,7 +31,7 @@ export class VueModule {
     }
 
     constructor (config: VueModuleConfig) {
-        this.config = config;
+        this.parentModule = null;
 
         this.afterInit(config);
     }
@@ -62,6 +65,7 @@ export class VueModule {
     private parseConfig (config: VueModuleConfig): void {
         if (config.parent) {
             this.container.parent = config.parent.Container;
+            this.parentModule = config.parent;
         }
 
         config.services.forEach((service) => {
