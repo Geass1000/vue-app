@@ -1,10 +1,7 @@
 import { FormModule } from './../../shared/base/form/form-module.base';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-import VTextFieldBase from '../../shared/base/v-text-field/v-text-field.base.vue';
-
 @Component({
-    components: { VTextFieldBase },
     $_veeValidate: { validator: 'new' }, // inject an instance of the VeeValidate
 })
 export default class ProfileDetailComponent extends Vue {
