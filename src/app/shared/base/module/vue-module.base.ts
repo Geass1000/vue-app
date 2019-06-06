@@ -1,7 +1,6 @@
 import { Container } from 'inversify';
 import getDecorators from 'inversify-inject-decorators';
 
-import { LoggerService, HttpService } from './services';
 import { VueModuleConfig, LazyInject, Injectors } from './vue-module.interface';
 
 export class VueModule {

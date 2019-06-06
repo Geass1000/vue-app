@@ -1,4 +1,4 @@
-import { VueModule } from './vue.module';
+import { VueModule } from './../shared/base/module';
 
 import { LoggerService, HttpService } from './services';
 
