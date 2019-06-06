@@ -1,7 +1,10 @@
 import { Container } from 'inversify';
 import getDecorators from 'inversify-inject-decorators';
 
+import { has as _has } from 'lodash';
+
 import { VueModuleConfig, LazyInject, Injectors } from './vue-module.interface';
+import { DIScope } from './vue-module.enum';
 
 export class VueModule {
     private parentModule: VueModule;
@@ -67,9 +70,29 @@ export class VueModule {
             this.parentModule = config.parent;
         }
 
-        config.services.forEach((service) => {
-            this.container.bind(service.diIdentifier)
-                .to(service).inSingletonScope();
+        config.services.forEach((diServiceConfig) => {
+            let scope: DIScope = _has(diServiceConfig, 'scope')
+                ? diServiceConfig.scope : DIScope.Singleton;
+
+            let diClass: any = _has(diServiceConfig, 'useClass')
+                ? diServiceConfig.useClass : diServiceConfig;
+
+            const boundDependency = this.container
+                .bind(diClass.diIdentifier).to(diClass);
+
+            switch (scope) {
+                case DIScope.Transient:
+                    boundDependency.inTransientScope();
+                    break;
+                case DIScope.Request:
+                    boundDependency.inRequestScope();
+                    break;
+                case DIScope.Singleton:
+                    boundDependency.inSingletonScope();
+                    break;
+                default:
+                    throw new Error(`Undefined scope!`);
+            }
         });
     }
 }
