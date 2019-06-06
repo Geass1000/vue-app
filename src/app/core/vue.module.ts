@@ -5,8 +5,8 @@ import { LoggerService, HttpService } from './services';
 import { VueModuleConfig, LazyInject, Injectors } from './vue-module.interface';
 
 export class VueModule {
-    private parentModule: VueModule | null;
-    get parent (): VueModule | null {
+    private parentModule: VueModule;
+    get parent (): VueModule {
         return this.parentModule;
     }
 
@@ -41,7 +41,7 @@ export class VueModule {
      * 1. Creates the DI Container (inversify).
      * 2. Calls the parser of the module's configuration.
      * 3. Creates decorators for module's injectors.
-     * 
+     *
      * @param  {VueModuleConfig} config - module's configuration
      * @returns void
      */
