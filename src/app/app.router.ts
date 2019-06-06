@@ -17,6 +17,10 @@ const routes: RouteConfig[] = [
         component: HomeComponent,
     },
     {
+        path: '/home',
+        redirect: '/',
+    },
+    {
         path: '/hello',
         component: HelloWorldComponent,
     },
