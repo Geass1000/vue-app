@@ -50,7 +50,13 @@ export default class AppComponent extends Vue {
         this.logger.className = `AppComponent`;
     }
 
-    public toggleDrawer () {
+    /**
+     * Event handler. Shows/hides the Vuetify drawer.
+     *
+     * @event click
+     * @returns void
+     */
+    public toggleDrawer (): void {
         this.drawerState = !this.drawerState;
     }
 }
