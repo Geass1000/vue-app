@@ -7,8 +7,14 @@ export class FormModule {
      */
     private controls: FormControl[];
 
-    static create (moduleConfig: FormModuleConfig) {
-        return new this(moduleConfig);
+    /**
+     * Creates the instance of form module.
+     *
+     * @param  {FormModuleConfig} moduleConfig - form module's configuration
+     * @returns FormModule
+     */
+    static create (moduleConfig: FormModuleConfig): FormModule {
+        return new FormModule(moduleConfig);
     }
 
     constructor (moduleConfig: FormModuleConfig) {
@@ -27,7 +33,7 @@ export class FormModule {
 
     /**
      * Finds and returns control by name.
-     * 
+     *
      * @param  {string} name - control's name
      * @returns FormControl | null
      */
