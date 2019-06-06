@@ -13,6 +13,7 @@
     "inversify": "^5.0.1",
     "inversify-inject-decorators": "^3.1.0",
     "reflect-metadata": "^0.1.13",
+    "vee-validate": "^2.2.9",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
