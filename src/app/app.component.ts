@@ -10,7 +10,35 @@ import { CoreModule } from './core/core.module';
     router: AppRouter,
 })
 export default class AppComponent extends Vue {
-    public showHello: boolean = true;
+    public drawerState: boolean = false;
+    public links = [
+        {
+            icon: `home`,
+            title: `Home`,
+            to: `/`,
+        },
+        {
+            icon: `question_answer`,
+            title: `Hello`,
+            to: `/hello`,
+        },
+        {
+            icon: `account_circle`,
+            title: `Profile`,
+            links: [
+                {
+                    icon: `contacts`,
+                    title: `Detail`,
+                    to: { name: 'detail', params: { id: 0 } },
+                },
+                {
+                    icon: `settings`,
+                    title: `Settings`,
+                    to: { name: 'settings', params: { id: 0 } },
+                },
+            ]
+        },
+    ];
 
     @CoreModule.lazyInject(LoggerService.diIdentifier)
     private logger!: LoggerService;
@@ -22,13 +50,7 @@ export default class AppComponent extends Vue {
         this.logger.className = `AppComponent`;
     }
 
-    public greet () {
-        this.showHello = !this.showHello;
-        this.logger.info(`greet`, `User clicked on the 'Data' button`);
-        this.http.get();
-    }
-
-    public newData () {
-        return this.showHello ? `Data 1` : `Data 2`;
+    public toggleDrawer () {
+        this.drawerState = !this.drawerState;
     }
 }

@@ -1,3 +1,17 @@
-<div class="profile-detail">
+<v-container class="profile-detail">
     <h2>Detail Page</h2>
-</div>
+    <label>Enter your username:</label>
+
+    <v-form>
+        <v-container>
+            <v-layout column wrap>
+
+                <v-flex xs12 sm6 md3>
+                    <v-text-field v-model="userName" label="Regular"></v-text-field>
+                </v-flex>
+            </v-layout>
+        </v-container>
+    </v-form>
+
+    <p>Now you are - {{userName}}</p>
+</v-container>
