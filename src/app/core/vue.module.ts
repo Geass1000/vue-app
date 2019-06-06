@@ -30,13 +30,22 @@ export class VueModule {
     constructor (config: VueModuleConfig) {
         this.config = config;
 
-        this.afterInit();
+        this.afterInit(config);
     }
 
-    private afterInit (): void {
+    /**
+     * Hook. It is called after `constructor`.
+     * 1. Creates the DI Container (inversify).
+     * 2. Calls the parser of the module's configuration.
+     * 3. Creates decorators for module's injectors.
+     * 
+     * @param  {VueModuleConfig} config - module's configuration
+     * @returns void
+     */
+    private afterInit (config: VueModuleConfig): void {
         this.container = new Container();
 
-        this.parseConfig();
+        this.parseConfig(config);
 
         this.injectors = getDecorators(this.container);
     }
@@ -47,15 +56,15 @@ export class VueModule {
      * 2. Binds services to the module's container. Function is using the
      * `diIdentifier` property for this.
      *
-     * @param  {VueModuleCo} config - module's configuration
+     * @param  {VueModuleConfig} config - module's configuration
      * @returns void
      */
-    private parseConfig (): void {
-        if (this.config.parent) {
-            this.container.parent = this.config.parent.Container;
+    private parseConfig (config: VueModuleConfig): void {
+        if (config.parent) {
+            this.container.parent = config.parent.Container;
         }
 
-        this.config.services.forEach((service) => {
+        config.services.forEach((service) => {
             this.container.bind(service.diIdentifier)
                 .to(service).inSingletonScope();
         });
