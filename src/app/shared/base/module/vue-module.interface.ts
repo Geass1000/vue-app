@@ -2,13 +2,17 @@ import { interfaces as interfacesInversify } from 'inversify';
 
 import { DIScope, DIDataType } from './vue-module.enum';
 
-export type LazyInject = (serviceIdentifier: string | symbol | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>)
+export type LazyInject = (serviceIdentifier: string | symbol
+    | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>)
     => (proto: any, key: string) => void;
-export type LazyInjectNamed = (serviceIdentifier: string | symbol | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>, named: string)
+export type LazyInjectNamed = (serviceIdentifier: string | symbol
+    | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>, named: string)
     => (proto: any, key: string) => void;
-export type LazyInjectTagged = (serviceIdentifier: string | symbol | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>, key: string, value: any)
+export type LazyInjectTagged = (serviceIdentifier: string | symbol
+    | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>, key: string, value: any)
     => (proto: any, propertyName: string) => void;
-export type LazyMultiInject = (serviceIdentifier: string | symbol | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>)
+export type LazyMultiInject = (serviceIdentifier: string | symbol
+    | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>)
     => (proto: any, key: string) => void;
 
 export interface Injectors {
