@@ -1,14 +1,14 @@
-import { interfaces } from 'inversify';
+import { interfaces as interfacesInversify } from 'inversify';
 
 import { DIScope, DIDataType } from './vue-module.enum';
 
-export type LazyInject = (serviceIdentifier: string | symbol | interfaces.Newable<any> | interfaces.Abstract<any>)
+export type LazyInject = (serviceIdentifier: string | symbol | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>)
     => (proto: any, key: string) => void;
-export type LazyInjectNamed = (serviceIdentifier: string | symbol | interfaces.Newable<any> | interfaces.Abstract<any>, named: string)
+export type LazyInjectNamed = (serviceIdentifier: string | symbol | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>, named: string)
     => (proto: any, key: string) => void;
-export type LazyInjectTagged = (serviceIdentifier: string | symbol | interfaces.Newable<any> | interfaces.Abstract<any>, key: string, value: any)
+export type LazyInjectTagged = (serviceIdentifier: string | symbol | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>, key: string, value: any)
     => (proto: any, propertyName: string) => void;
-export type LazyMultiInject = (serviceIdentifier: string | symbol | interfaces.Newable<any> | interfaces.Abstract<any>)
+export type LazyMultiInject = (serviceIdentifier: string | symbol | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>)
     => (proto: any, key: string) => void;
 
 export interface Injectors {
@@ -39,7 +39,12 @@ export interface ValueProvider extends BaseProvider {
     useValue: any;
 }
 
-export type Provider = ClassProvider | ValueProvider | any;
+export type DynamicValue = (context: interfacesInversify.Context) => any;
+export interface DynamicValueProvider extends BaseProvider {
+    useDynamicValue: DynamicValue;
+}
+
+export type Provider = ClassProvider | ValueProvider | DynamicValueProvider | any;
 
 export interface VueModuleConfig {
     parent?: any;

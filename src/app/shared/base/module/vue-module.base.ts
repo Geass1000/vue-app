@@ -4,7 +4,7 @@ import getDecorators from 'inversify-inject-decorators';
 import _ from 'lodash';
 
 import {
-    VueModuleConfig, LazyInject,
+    VueModuleConfig, LazyInject, DynamicValue,
     Injectors, DependencyConfig, Provider
 } from './vue-module.interface';
 import { DIScope, DIDataType } from './vue-module.enum';
@@ -111,6 +111,9 @@ export class VueModule {
         if (_.has(provider, 'useValue')) {
             diData = provider.useValue;
             diDataType = DIDataType.UseValue;
+        } else if (_.has(provider, 'useDynamicValue')) {
+            diData = provider.useDynamicValue;
+            diDataType = DIDataType.UseDynamicValue;
         } else if (_.has(provider, 'useClass')) {
             diData = provider.useClass;
             diDataType = DIDataType.UseClass;
@@ -144,6 +147,8 @@ export class VueModule {
                 return this.bindClass(dependencyConfig.identifier, dependencyConfig.data);
             case DIDataType.UseValue:
                 return this.bindValue(dependencyConfig.identifier, dependencyConfig.data);
+            case DIDataType.UseDynamicValue:
+                return this.bindDynamicValue(dependencyConfig.identifier, dependencyConfig.data);
         }
     }
 
@@ -151,7 +156,7 @@ export class VueModule {
      * Binds the `Class` dependency to the DI container.
      *
      * @param  {symbol} diIdentifier - dependency identifier
-     * @param  {any} diClass - dependency class
+     * @param  {any} diClass - `class` dependency
      * @returns inversifyInterfaces.BindingInWhenOnSyntax<{}>
      */
     private bindClass (diIdentifier: symbol, diClass: any)
@@ -163,12 +168,24 @@ export class VueModule {
      * Binds the `Value` dependency to the DI container.
      *
      * @param  {symbol} diIdentifier - dependency identifier
-     * @param  {any} diValue - dependency value
+     * @param  {any} diValue - `value` dependency
      * @returns inversifyInterfaces.BindingInWhenOnSyntax<{}>
      */
     private bindValue (diIdentifier: symbol, diValue: any)
             : inversifyInterfaces.BindingWhenOnSyntax<{}> {
         return this.container.bind(diIdentifier).toConstantValue(diValue);
+    }
+
+    /**
+     * Binds the `DynamicValue` dependency to the DI container.
+     *
+     * @param  {symbol} diIdentifier - dependency identifier
+     * @param  {any} diDynamicValue - `dynamic value` dependency
+     * @returns inversifyInterfaces.BindingInWhenOnSyntax<{}>
+     */
+    private bindDynamicValue (diIdentifier: symbol, diDynamicValue: DynamicValue)
+            : inversifyInterfaces.BindingWhenOnSyntax<{}> {
+        return this.container.bind(diIdentifier).toDynamicValue(diDynamicValue);
     }
 
     /**

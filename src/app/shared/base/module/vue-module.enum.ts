@@ -8,4 +8,5 @@ export enum DIScope {
 export enum DIDataType {
     UseClass,
     UseValue,
+    UseDynamicValue,
 }
