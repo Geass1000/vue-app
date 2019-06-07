@@ -2,10 +2,10 @@ import { VueModule, DIScope } from '../shared/base/module';
 
 import { HttpService, LoggerService } from '../core/services';
 
-import { CoreModule } from '../core/core.module';
+import { AppModule } from '../app.module';
 
 export const ProfileModule = VueModule.init({
-    parent: CoreModule,
+    parent: AppModule,
     services: [
         HttpService,
         { useClass: LoggerService, scope: DIScope.Transient },

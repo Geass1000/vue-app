@@ -4,7 +4,7 @@ import { AppRouter } from './app.router';
 
 import { HttpService, LoggerService } from './core/services';
 
-import { CoreModule } from './core/core.module';
+import { AppModule } from './app.module';
 
 @Component({
     router: AppRouter,
@@ -40,10 +40,10 @@ export default class AppComponent extends Vue {
         },
     ];
 
-    @CoreModule.lazyInject(LoggerService.diIdentifier)
+    @AppModule.lazyInject(LoggerService.diIdentifier)
     private logger!: LoggerService;
 
-    @CoreModule.lazyInject(HttpService.diIdentifier)
+    @AppModule.lazyInject(HttpService.diIdentifier)
     private http!: HttpService;
 
     public created () {
