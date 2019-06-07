@@ -160,8 +160,8 @@ export class VueModule {
      * @returns inversifyInterfaces.BindingInWhenOnSyntax<{}>
      */
     private bindValue (diIdentifier: symbol, diValue: any)
-            : inversifyInterfaces.BindingInWhenOnSyntax<{}> {
-        return this.container.bind(diIdentifier).to(diValue);
+            : inversifyInterfaces.BindingWhenOnSyntax<{}> {
+        return this.container.bind(diIdentifier).toConstantValue(diValue);
     }
 
     /**
