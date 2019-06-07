@@ -83,12 +83,18 @@ export class VueModule {
             }
 
             const boundDependency: inversifyInterfaces.BindingInWhenOnSyntax<{}>
+                | inversifyInterfaces.BindingWhenOnSyntax<{}>
                 = this.bindDependency(dependencyConfig);
+
+            // Skip step to apply the DI scope
+            if (dependencyConfig.dataType === DIDataType.UseValue) {
+                return;
+            }
 
             const scope: DIScope = _.has(provider, 'scope')
                 ? provider.scope : DIScope.Singleton;
 
-            this.useScope(scope, boundDependency);
+            this.useScope(scope, boundDependency as inversifyInterfaces.BindingInWhenOnSyntax<{}>);
         });
     }
 
@@ -131,7 +137,8 @@ export class VueModule {
      * @returns inversifyInterfaces.BindingInWhenOnSyntax<{}>
      */
     private bindDependency (dependencyConfig: DependencyConfig)
-            : inversifyInterfaces.BindingInWhenOnSyntax<{}> {
+            : inversifyInterfaces.BindingInWhenOnSyntax<{}>
+            | inversifyInterfaces.BindingWhenOnSyntax<{}> {
         switch (dependencyConfig.dataType) {
             case DIDataType.UseClass:
                 return this.bindClass(dependencyConfig.identifier, dependencyConfig.data);
