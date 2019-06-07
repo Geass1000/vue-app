@@ -3,6 +3,8 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+export { Store } from 'vuex';
+
 import { AppStore, AppState } from './stores';
 
 export interface StoreState {
