@@ -1,4 +1,7 @@
 
+/**
+ * Class container for mutation and action events.
+ */
 export class StoreEvent<M, A> {
     private _mutations: M;
     public get mutations (): M {
