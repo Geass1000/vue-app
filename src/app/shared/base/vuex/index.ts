@@ -1,1 +1,1 @@
-export * from './store-event.base';
+export * from './store.event';
