@@ -1,10 +1,13 @@
-import { Container } from 'inversify';
+import { Container, interfaces as inversifyInterfaces } from 'inversify';
 import getDecorators from 'inversify-inject-decorators';
 
-import { has as _has } from 'lodash';
+import _ from 'lodash';
 
-import { VueModuleConfig, LazyInject, Injectors } from './vue-module.interface';
-import { DIScope } from './vue-module.enum';
+import {
+    VueModuleConfig, LazyInject,
+    Injectors, DependencyConfig, Provider
+} from './vue-module.interface';
+import { DIScope, DIDataType } from './vue-module.enum';
 
 export class VueModule {
     private parentModule: VueModule;
@@ -57,9 +60,10 @@ export class VueModule {
 
     /**
      * Parses the configuration.
-     * 1. Sets the container's `parent` property on an external module (container).
-     * 2. Binds services to the module's container. Function is using the
-     * `diIdentifier` property for this.
+     * 1. Sets the container's `parent` property on an external container.
+     * 2. Sets the class's `parent` property on an external module.
+     * 3. Binds dependencies to the module's container.
+     * 4. Applies correct DI scope for each dependency.
      *
      * @param  {VueModuleConfig} config - module's configuration
      * @returns void
@@ -70,29 +74,117 @@ export class VueModule {
             this.parentModule = config.parent;
         }
 
-        config.services.forEach((diServiceConfig) => {
-            let scope: DIScope = _has(diServiceConfig, 'scope')
-                ? diServiceConfig.scope : DIScope.Singleton;
+        config.services.forEach((provider) => {
+            const dependencyConfig: DependencyConfig
+                = this.getDependencyConfig(provider);
 
-            let diClass: any = _has(diServiceConfig, 'useClass')
-                ? diServiceConfig.useClass : diServiceConfig;
-
-            const boundDependency = this.container
-                .bind(diClass.diIdentifier).to(diClass);
-
-            switch (scope) {
-                case DIScope.Transient:
-                    boundDependency.inTransientScope();
-                    break;
-                case DIScope.Request:
-                    boundDependency.inRequestScope();
-                    break;
-                case DIScope.Singleton:
-                    boundDependency.inSingletonScope();
-                    break;
-                default:
-                    throw new Error(`Undefined scope!`);
+            if (!_.isSymbol(dependencyConfig.identifier)) {
+                throw new Error(`DI identifier is not provided!`);
             }
+
+            const boundDependency: inversifyInterfaces.BindingInWhenOnSyntax<{}>
+                = this.bindDependency(dependencyConfig);
+
+            const scope: DIScope = _.has(provider, 'scope')
+                ? provider.scope : DIScope.Singleton;
+
+            this.useScope(scope, boundDependency);
         });
+    }
+
+    /**
+     * Creates the dependency configuration from provider.
+     *
+     * @param  {Provider} provider - provider configuration
+     * @returns DependencyConfig
+     */
+    private getDependencyConfig (provider: Provider): DependencyConfig {
+        let diData: any;
+        let diDataType: DIDataType;
+
+        if (_.has(provider, 'useValue')) {
+            diData = provider.useValue;
+            diDataType = DIDataType.UseValue;
+        } else if (_.has(provider, 'useClass')) {
+            diData = provider.useClass;
+            diDataType = DIDataType.UseClass;
+        } else {
+            diData = provider;
+            diDataType = DIDataType.UseClass;
+        }
+
+        let diIdentifier: symbol = _.has(provider, 'provide')
+            ? provider.provide
+            : _.get(diData, `diIdentifier`);
+
+        return {
+            identifier: diIdentifier,
+            dataType: diDataType,
+            data: diData,
+        };
+    }
+
+    /**
+     * Binds the dependency to the DI container.
+     *
+     * @param  {DependencyConfig} dependencyConfig - dependency configuration
+     * @returns inversifyInterfaces.BindingInWhenOnSyntax<{}>
+     */
+    private bindDependency (dependencyConfig: DependencyConfig)
+            : inversifyInterfaces.BindingInWhenOnSyntax<{}> {
+        switch (dependencyConfig.dataType) {
+            case DIDataType.UseClass:
+                return this.bindClass(dependencyConfig.identifier, dependencyConfig.data);
+            case DIDataType.UseValue:
+                return this.bindValue(dependencyConfig.identifier, dependencyConfig.data);
+        }
+    }
+
+    /**
+     * Binds the `Class` dependency to the DI container.
+     *
+     * @param  {symbol} diIdentifier - dependency identifier
+     * @param  {any} diClass - dependency class
+     * @returns inversifyInterfaces.BindingInWhenOnSyntax<{}>
+     */
+    private bindClass (diIdentifier: symbol, diClass: any)
+            : inversifyInterfaces.BindingInWhenOnSyntax<{}> {
+        return this.container.bind(diIdentifier).to(diClass);
+    }
+
+    /**
+     * Binds the `Value` dependency to the DI container.
+     *
+     * @param  {symbol} diIdentifier - dependency identifier
+     * @param  {any} diValue - dependency value
+     * @returns inversifyInterfaces.BindingInWhenOnSyntax<{}>
+     */
+    private bindValue (diIdentifier: symbol, diValue: any)
+            : inversifyInterfaces.BindingInWhenOnSyntax<{}> {
+        return this.container.bind(diIdentifier).to(diValue);
+    }
+
+    /**
+     * Applies the correct scope to dependency.
+     *
+     * @param  {DIScope} scope - dependency scope
+     * @param  {inversifyInterfaces.BindingInWhenOnSyntax<{}>} boundDependency - bound dependency
+     * @returns void
+     */
+    private useScope (scope: DIScope,
+            boundDependency: inversifyInterfaces.BindingInWhenOnSyntax<{}>): void {
+        switch (scope) {
+            case DIScope.Transient:
+                boundDependency.inTransientScope();
+                break;
+            case DIScope.Request:
+                boundDependency.inRequestScope();
+                break;
+            case DIScope.Singleton:
+                boundDependency.inSingletonScope();
+                break;
+            default:
+                throw new Error(`Undefined scope!`);
+        }
     }
 }

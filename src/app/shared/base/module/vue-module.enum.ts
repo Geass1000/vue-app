@@ -4,3 +4,8 @@ export enum DIScope {
     Singleton = 'Singleton',
     Request = 'Request',
 }
+
+export enum DIDataType {
+    UseClass,
+    UseValue,
+}
