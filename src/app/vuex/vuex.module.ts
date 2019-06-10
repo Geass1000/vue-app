@@ -4,6 +4,9 @@ import { StoreKey, StoreInst } from './store';
 
 export const VuexModule = VueModule.init({
     services: [
-        { provide: StoreKey, useDynamicValue: StoreInst },
+        { provide: StoreKey, useValue: StoreInst },
+    ],
+    exports: [
+        StoreKey,
     ]
 });

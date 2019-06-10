@@ -11,7 +11,7 @@ export interface StoreState {
     app: AppState;
 }
 
-export const StoreInst = () => new Vuex.Store<StoreState>({
+export const StoreInst = new Vuex.Store<StoreState>({
     modules: {
         app: AppStore,
     },
