@@ -1,12 +1,12 @@
 import { VueModule, DIScope } from '../shared/base/module';
 
-import { StoreKey, StoreInst } from './store';
+import { StoreDIKey, StoreInst } from './store';
 
 export const VuexModule = VueModule.init({
     services: [
-        { provide: StoreKey, useValue: StoreInst },
+        { provide: StoreDIKey, useValue: StoreInst },
     ],
     exports: [
-        StoreKey,
+        StoreDIKey,
     ]
 });

@@ -17,4 +17,4 @@ export const StoreInst = new Vuex.Store<StoreState>({
     },
 });
 
-export const StoreKey = Symbol(`Store`);
+export const StoreDIKey = Symbol(`Store`);

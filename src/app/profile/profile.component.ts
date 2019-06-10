@@ -3,7 +3,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import ProfileNavigationComponent from './navigation/navigation.component.vue';
 
 import { HttpService, LoggerService } from '../core/services';
-import { StoreKey, Store, StoreState, AppEvent } from '../vuex';
+import { StoreDIKey, Store, StoreState, AppEvent } from '../vuex';
 import { AppAct } from '../vuex/acts/app.act';
 
 import { ProfileModule } from './profile.module';
@@ -20,7 +20,7 @@ export default class ProfileComponent extends Vue {
     @ProfileModule.lazyInject(HttpService.diIdentifier)
     private http!: HttpService;
 
-    @ProfileModule.lazyInject(StoreKey)
+    @ProfileModule.lazyInject(StoreDIKey)
     private store!: Store<StoreState>;
 
     public created () {
