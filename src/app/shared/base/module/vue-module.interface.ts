@@ -1,18 +1,18 @@
-import { interfaces as interfacesInversify } from 'inversify';
+import * as Inversify from 'inversify';
 
 import { DIScope, DIDataType } from './vue-module.enum';
 
 export type LazyInject = (serviceIdentifier: string | symbol
-    | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>)
+    | Inversify.interfaces.Newable<any> | Inversify.interfaces.Abstract<any>)
     => (proto: any, key: string) => void;
 export type LazyInjectNamed = (serviceIdentifier: string | symbol
-    | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>, named: string)
+    | Inversify.interfaces.Newable<any> | Inversify.interfaces.Abstract<any>, named: string)
     => (proto: any, key: string) => void;
 export type LazyInjectTagged = (serviceIdentifier: string | symbol
-    | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>, key: string, value: any)
+    | Inversify.interfaces.Newable<any> | Inversify.interfaces.Abstract<any>, key: string, value: any)
     => (proto: any, propertyName: string) => void;
 export type LazyMultiInject = (serviceIdentifier: string | symbol
-    | interfacesInversify.Newable<any> | interfacesInversify.Abstract<any>)
+    | Inversify.interfaces.Newable<any> | Inversify.interfaces.Abstract<any>)
     => (proto: any, key: string) => void;
 
 export interface Injectors {
@@ -22,16 +22,16 @@ export interface Injectors {
     lazyMultiInject: LazyMultiInject;
 }
 
-export type DIProvide = symbol;
+export type DIKey = symbol;
 
 export interface DependencyConfig {
-    identifier: DIProvide;
+    identifier: DIKey;
     dataType: DIDataType;
     data: any;
 }
 
 export interface BaseProvider {
-    provide?: DIProvide;
+    provide?: DIKey;
     scope?: DIScope;
 }
 
@@ -43,14 +43,17 @@ export interface ValueProvider extends BaseProvider {
     useValue: any;
 }
 
-export type DynamicValue = (context: interfacesInversify.Context) => any;
+export type DynamicValue = (context: Inversify.interfaces.Context) => any;
 export interface DynamicValueProvider extends BaseProvider {
     useDynamicValue: DynamicValue;
 }
 
-export type Provider = ClassProvider | ValueProvider | DynamicValueProvider | any;
+export type ServiceProvider = ClassProvider | ValueProvider | DynamicValueProvider | any;
+
+export type ExportProvider = DIKey | any;
 
 export interface VueModuleConfig {
-    parent?: any;
-    services: Provider[];
+    modules?: any[];
+    services?: ServiceProvider[];
+    exports?: ExportProvider[];
 }
