@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as Interfaces from './http.interface';
 
-export class HttpHeader {
+export class HttpHeaders {
     private headers: Map<Interfaces.HttpHeader.Key, Interfaces.HttpHeader.Value>;
 
     constructor (headers?: Interfaces.HttpHeader[]) {
@@ -36,8 +36,29 @@ export class HttpHeader {
     }
 
     /**
-     * Returns `headers` object for axios.
+     * Returns header by key (name).
      * 
+     * @param  {Interfaces.HttpHeader.Key} key
+     * @returns Interfaces.HttpHeader
+     */
+    public get (key: Interfaces.HttpHeader.Key): Interfaces.HttpHeader {
+        const value = this.headers.get(key);
+        return { key, value };
+    }
+
+    /**
+     * Returns `true` if header by key exists in headers.
+     *
+     * @param  {Interfaces.HttpHeader.Key} key
+     * @returns boolean
+     */
+    public has (key: Interfaces.HttpHeader.Key): boolean {
+        return this.headers.has(key);
+    }
+
+    /**
+     * Returns `headers` object for axios.
+     *
      * @returns Dictionary
      */
     public getAll (): _.Dictionary<Interfaces.HttpHeader.Value> {
