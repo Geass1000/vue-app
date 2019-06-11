@@ -41,6 +41,10 @@ export class HttpService {
             let httpRequest = HttpRequest.fromAxiosConfig<any>(config);
 
             await Bluebird.mapSeries(requestInterceptors, async (interceptor) => {
+                if (!_.isObject(interceptor) || !_.isFunction(interceptor.intercept)) {
+                    return;
+                }
+
                 httpRequest = await new Bluebird(null)
                     .then(() => interceptor.intercept(httpRequest));
             });
@@ -64,6 +68,10 @@ export class HttpService {
             let httpResponse = HttpResponse.fromAxiosResponse<any>(response);
 
             await Bluebird.mapSeries(responseInterceptors, async (interceptor) => {
+                if (!_.isObject(interceptor) || !_.isFunction(interceptor.intercept)) {
+                    return;
+                }
+
                 httpResponse = await new Bluebird(null)
                     .then(() => interceptor.intercept(httpResponse));
             });
