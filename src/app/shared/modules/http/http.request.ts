@@ -1,3 +1,4 @@
+import { HttpMethod } from './http.enum';
 import _ from 'lodash';
 
 import { HttpRequestConfig } from './http.interface';
@@ -6,7 +7,15 @@ import { AxiosRequestConfig } from './axios.service';
 
 export class HttpRequest<T> {
     /**
-     * Url that will be used for the request
+     * Method type that will be used for determining the request type
+     */
+    private _method: HttpMethod;
+    get method (): HttpMethod {
+        return this._method;
+    }
+
+    /**
+     * Url that will be used for determining the request destination
      */
     private _url: string;
     get url (): string {
@@ -14,7 +23,7 @@ export class HttpRequest<T> {
     }
 
     /**
-     * Http Headers that will be used for the request
+     * Http Headers that will be used as the request headers
      */
     private _headers: HttpMeta;
     get headers (): HttpMeta {
@@ -22,7 +31,7 @@ export class HttpRequest<T> {
     }
 
     /**
-     * Http Query Params that will be used for the request
+     * Http Query Params that will be used as the request query params
      */
     private _params: HttpMeta;
     get params (): HttpMeta {
@@ -87,6 +96,8 @@ export class HttpRequest<T> {
             throw new Error (`Url is required!`);
         }
 
+        this._method = config.method;
+
         this._headers = new HttpMeta(config.headers);
         this._params = new HttpMeta(config.params);
         this._data = config.data;
@@ -113,6 +124,7 @@ export class HttpRequest<T> {
     public getHttpConfig (): HttpRequestConfig<T> {
         return {
             url: this.url,
+            method: this.method,
             headers: this.headers.getAll(),
             params: this.params.getAll(),
             data: this.data,

@@ -1,3 +1,4 @@
+import { HttpMethod } from './http.enum';
 
 export namespace HttpMeta {
     export type Key = string;
@@ -14,8 +15,8 @@ export interface HttpMetaDictionary {
 }
 
 export interface HttpRequestConfig<DataType> {
-    url?: string;
-    method?: `get` | `post` | `put` | `delete`;
+    url: string;
+    method: HttpMethod;
     headers?: HttpMeta[];
     params?: HttpMeta[];
     data?: DataType;
