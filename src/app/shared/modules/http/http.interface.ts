@@ -24,6 +24,26 @@ export interface HttpRequestConfig<DataType> {
     responseType?: Enums.HttpResponseType;
 }
 
+export interface HttpMethodRequestConfig {
+    headers?: HttpMeta[];
+    params?: HttpMeta[];
+    responseType?: Enums.HttpResponseType;
+}
+
+export interface HttpGetRequestConfig extends HttpMethodRequestConfig {
+}
+
+export interface HttpPostRequestConfig<DataType> extends HttpMethodRequestConfig {
+    data?: DataType;
+}
+
+export interface HttpPutRequestConfig<DataType> extends HttpMethodRequestConfig {
+    data?: DataType;
+}
+
+export interface HttpDeleteRequestConfig extends HttpMethodRequestConfig {
+}
+
 export interface HttpResponseSchema<ResponseDataType> {
     data?: ResponseDataType;
     status?: number;
