@@ -23,3 +23,10 @@ export interface HttpRequestConfig<DataType> {
     data?: DataType;
     responseType?: Enums.HttpResponseType;
 }
+
+export interface HttpResponseSchema<ResponseDataType> {
+    data?: ResponseDataType;
+    status?: number;
+    statusText?: string;
+    headers?: HttpMeta[];
+}
