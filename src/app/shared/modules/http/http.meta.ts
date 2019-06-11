@@ -5,6 +5,8 @@ export class HttpMeta {
     protected entries: Map<Interfaces.HttpMeta.Key, Interfaces.HttpMeta.Value>;
 
     constructor (entries?: Interfaces.HttpMeta[]) {
+        this.entries = new Map();
+
         if (!_.isArray(entries)) {
             return;
         }
