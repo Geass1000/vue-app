@@ -140,6 +140,7 @@ export class HttpRequest<T> {
     public getAxiosConfig (): AxiosRequestConfig {
         return {
             url: this.url,
+            method: this.method,
             headers: this.headers.toDictionary(),
             params: this.params.toDictionary(),
             data: this.data,
