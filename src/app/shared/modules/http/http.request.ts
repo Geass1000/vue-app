@@ -74,6 +74,7 @@ export class HttpRequest<T> {
         const config: HttpRequestConfig<DataType> = {
             url: axiosConfig.url,
             data: axiosConfig.data,
+            method: axiosConfig.method as HttpMethod,
             headers: headers.fromDictionary(axiosConfig.headers).getAll(),
             params: headers.fromDictionary(axiosConfig.headers).getAll(),
         };
