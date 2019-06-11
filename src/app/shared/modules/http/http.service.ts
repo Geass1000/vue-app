@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import Bluebird from 'bluebird';
-import { injectable, inject, multiInject } from 'inversify';
+import { injectable, inject, multiInject, optional } from 'inversify';
 
 import * as Interfaces from './http.interface';
 import * as Enums from './http.enum';
@@ -20,8 +20,8 @@ export class HttpService {
 
     constructor (
             @inject(AxiosDIKey) public axios: AxiosService,
-            @multiInject(HttpRequestInterceptorDIKey) requestInterceptors: HttpRequestInterceptor[],
-            @multiInject(HttpResponseInterceptorDIKey) responseInterceptors: HttpResponseInterceptor[]) {
+            @multiInject(HttpRequestInterceptorDIKey) @optional() requestInterceptors: HttpRequestInterceptor[],
+            @multiInject(HttpResponseInterceptorDIKey) @optional() responseInterceptors: HttpResponseInterceptor[]) {
         this.applyRequestInterceptors(requestInterceptors);
         this.applyResponseInterceptors(responseInterceptors);
     }
