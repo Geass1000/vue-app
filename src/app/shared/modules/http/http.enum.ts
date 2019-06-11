@@ -5,3 +5,12 @@ export enum HttpMethod {
     Put = 'put',
     Delete = 'delete',
 }
+
+export enum HttpResponseType {
+    Arraybuffer = 'arraybuffer',
+    Blob = 'blob',
+    Document = 'document',
+    Json = 'json',
+    Text = 'text',
+    Stream = 'stream',
+}

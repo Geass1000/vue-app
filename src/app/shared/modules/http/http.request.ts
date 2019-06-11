@@ -1,6 +1,6 @@
-import { HttpMethod } from './http.enum';
 import _ from 'lodash';
 
+import * as Enums from './http.enum';
 import { HttpRequestConfig } from './http.interface';
 import { HttpMeta } from './http.meta';
 import { AxiosRequestConfig } from './axios.service';
@@ -9,9 +9,17 @@ export class HttpRequest<T> {
     /**
      * Method type that will be used for determining the request type
      */
-    private _method: HttpMethod;
-    get method (): HttpMethod {
+    private _method: Enums.HttpMethod;
+    get method (): Enums.HttpMethod {
         return this._method;
+    }
+
+    /**
+     * Response type that will be used for data in the response
+     */
+    private _responseType: Enums.HttpResponseType;
+    get responseType (): Enums.HttpResponseType {
+        return this._responseType;
     }
 
     /**
@@ -74,7 +82,8 @@ export class HttpRequest<T> {
         const config: HttpRequestConfig<DataType> = {
             url: axiosConfig.url,
             data: axiosConfig.data,
-            method: axiosConfig.method as HttpMethod,
+            method: axiosConfig.method as Enums.HttpMethod,
+            responseType: axiosConfig.responseType as Enums.HttpResponseType,
             headers: headers.fromDictionary(axiosConfig.headers).getAll(),
             params: headers.fromDictionary(axiosConfig.headers).getAll(),
         };
@@ -98,7 +107,7 @@ export class HttpRequest<T> {
         }
 
         this._method = config.method;
-
+        this._responseType = config.responseType;
         this._headers = new HttpMeta(config.headers);
         this._params = new HttpMeta(config.params);
         this._data = config.data;
@@ -126,6 +135,7 @@ export class HttpRequest<T> {
         return {
             url: this.url,
             method: this.method,
+            responseType: this.responseType,
             headers: this.headers.getAll(),
             params: this.params.getAll(),
             data: this.data,
@@ -141,6 +151,7 @@ export class HttpRequest<T> {
         return {
             url: this.url,
             method: this.method,
+            responseType: this.responseType,
             headers: this.headers.toDictionary(),
             params: this.params.toDictionary(),
             data: this.data,

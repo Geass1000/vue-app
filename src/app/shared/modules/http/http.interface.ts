@@ -1,4 +1,5 @@
-import { HttpMethod } from './http.enum';
+import * as Enums from './http.enum';
+import { ResponseType } from './axios.service';
 
 export namespace HttpMeta {
     export type Key = string;
@@ -16,8 +17,9 @@ export interface HttpMetaDictionary {
 
 export interface HttpRequestConfig<DataType> {
     url: string;
-    method: HttpMethod;
+    method: Enums.HttpMethod;
     headers?: HttpMeta[];
     params?: HttpMeta[];
     data?: DataType;
+    responseType?: Enums.HttpResponseType;
 }
