@@ -13,7 +13,7 @@
     "core-js": "^2.6.5",
     "inversify": "^5.0.1",
     "inversify-inject-decorators": "^3.1.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "reflect-metadata": "^0.1.13",
     "vee-validate": "^2.2.9",
     "vue": "^2.6.10",
